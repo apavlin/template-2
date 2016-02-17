@@ -1,0 +1,32 @@
+@import "sprite";
+
+.header {
+	background: #eff3f7;
+}
+
+.logo__link {
+  display: block;
+}
+
+.socials {
+	
+	&__item, &__link {
+		display: inline-block;
+		
+	}
+	&__link {
+		&_fb{
+			@include sprite($fb);
+		}
+	}
+	&__link {
+		&_tw{
+			@include sprite($tw)
+		}
+	}
+	&__link {
+		&_vk{
+			@include sprite($vk)
+		}
+	}
+}

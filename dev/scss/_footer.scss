@@ -1,0 +1,13 @@
+.wrapper:after {
+  content: "";
+  display: block;
+  height: 80px;
+  }
+
+.footer {
+  height: 80px;
+  margin-top: -80px;
+  background: #eff3f7;
+  position: relative;
+  text-align: center;
+}

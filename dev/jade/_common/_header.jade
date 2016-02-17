@@ -1,0 +1,10 @@
+.header
+	.container
+		.logo Логотип 
+		.search Поиск
+		.socials 
+			ul.socials__list
+				- var socials = ['vk', 'fb', 'tw']
+				each item in socials
+					li.socials__item
+						a(href="#" class="socials__link socials__link_#{item}").

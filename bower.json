@@ -1,0 +1,20 @@
+{
+  "name": "ProjectName",
+  "authors": [
+    "apavlin <apavlin@yandex.ru>"
+  ],
+  "description": "ProjectName",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "jquery": "2.2.0",
+	"normalize-scss": "normalize.scss#~4.0.3"
+  }
+}
