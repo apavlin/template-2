@@ -23,7 +23,6 @@ var paths = {
 	
     scss: {
         location: [
-            'bower_components/normalize-scss/_normalize.scss',
             'dev/scss/**/*.scss'
         ],
         destination: 'prod/css'
