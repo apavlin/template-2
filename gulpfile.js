@@ -1,16 +1,17 @@
 var gulp = require("gulp"),
-	concat = require('gulp-concat'),
+    autoprefixer = require('gulp-autoprefixer'),
     browserSync = require('browser-sync'),
+    concat = require('gulp-concat'),
+    imagemin = require('gulp-imagemin'),
     jade = require('gulp-jade'),
     plumber = require('gulp-plumber'),
-    uglify = require('gulp-uglify'),
-	sass = require('gulp-sass'),
-    autoprefixer = require('gulp-autoprefixer'),
+    pngquant = require('imagemin-pngquant'),
+    rigger = require('gulp-rigger'),
+    rename = require("gulp-rename"),
+    sass = require('gulp-sass'),
+    sourcemaps = require('gulp-sourcemaps'),
     spritesmith = require('gulp.spritesmith'),
-	rename = require("gulp-rename"),
-	imagemin = require('gulp-imagemin'),
-	pngquant = require('imagemin-pngquant'),
-    sourcemaps = require('gulp-sourcemaps');
+    uglify = require('gulp-uglify');
 
 //Paths
 var paths = {
@@ -20,7 +21,7 @@ var paths = {
         ],
         destination: 'prod'
     },
-	
+
     scss: {
         location: [
             'dev/scss/**/*.scss'
@@ -30,7 +31,6 @@ var paths = {
 
     js: {
         location: [
-            'bower_components/jquery/dist/jquery.js',
             'dev/js/*.js'
         ],
         destination: 'prod/js'
@@ -38,7 +38,7 @@ var paths = {
 };
 
 
-//Jade 
+//Jade
 gulp.task('jade-compile', function() {
   var YOUR_LOCALS = {};
   gulp.src(paths.jade.location)
@@ -65,8 +65,10 @@ gulp.task('sass-compile', function() {
 // concat js
 gulp.task('concat-js', function() {
   return gulp.src(paths.js.location)
-  	.pipe(sourcemaps.init())
-  	.pipe(concat('main.min.js'))
+  	.pipe(plumber())
+    .pipe(sourcemaps.init())
+    .pipe(concat('main.min.js'))
+    .pipe(rigger())
     .pipe(uglify())
   	.pipe(sourcemaps.write())
     .pipe(gulp.dest(paths.js.destination));
@@ -85,7 +87,7 @@ gulp.task('sprite', function() {
     spriteData.css.pipe(gulp.dest('dev/scss/'));
 });
 
-// images minification 
+// images minification
 gulp.task('img-min', function() {
     return gulp.src('dev/img/*')
         .pipe(imagemin({
@@ -121,9 +123,9 @@ gulp.task('watch', function () {
 
 // Задача по-умолчанию
 gulp.task('default', [
-  'jade-compile', 
-  'sass-compile', 
-  'concat-js', 
-  'server', 
+  'jade-compile',
+  'sass-compile',
+  'concat-js',
+  'server',
   'watch'
 ]);
