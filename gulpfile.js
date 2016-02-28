@@ -82,26 +82,32 @@ gulp.task('concat-js', function() {
 
 // auto sprites
 gulp.task('sprite', function() {
-    var spriteData = gulp.src('dev/img/icons/*.png')
+    var spriteData = gulp.src('dev/img/icons/*.*')
         .pipe(spritesmith({
             imgName: 'sprite.png',
             cssName: 'sprite.scss',
             algorithm: 'top-down',
             padding:  5
         }));
-    spriteData.img.pipe(gulp.dest('prod/img/'));
+    spriteData.img.pipe(gulp.dest('dev/img/sprite/'));
     spriteData.css.pipe(gulp.dest('dev/scss/'));
 });
 
 // images minification
 gulp.task('img-min', function() {
-    return gulp.src('dev/img/*')
+    return gulp.src(['dev/img/**/*.*', '!dev/img/icons/*.*'])
         .pipe(imagemin({
             progressive: true,
             svgoPlugins: [{removeViewBox: false}],
             use: [pngquant()]
         }))
         .pipe(gulp.dest('prod/img'));
+});
+
+//Перенос шрифтов
+gulp.task('copy-fonts', function() {
+    gulp.src('dev/fonts/*.*')
+    .pipe(gulp.dest('prod/fonts'))
 });
 
 // Сервер
@@ -120,7 +126,7 @@ gulp.task('watch', function () {
   gulp.watch(paths.scss.location, ['sass-compile']);
   gulp.watch('dev/img/**/*', ['img-min']);
   gulp.watch('dev/js/**/*', ['concat-js']);
-  gulp.watch(['prod/**/*.*', '!**/*.css']).on('change', browserSync.reload);
+  gulp.watch(['prod/*.html', 'prod/js/*.js']).on('change', browserSync.reload);
 });
 
 // Задача по-умолчанию
@@ -128,6 +134,17 @@ gulp.task('default', [
   'jade-compile',
   'sass-compile',
   'concat-js',
+  'server',
+  'watch'
+]);
+
+// Сборка prod
+gulp.task('build', [
+  'jade-compile',
+  'sass-compile',
+  'concat-js',
+  'img-min',
+  'copy-fonts',
   'server',
   'watch'
 ]);
